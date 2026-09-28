@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RentTech – Electronic device rental by the hour</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F4F7;--sf:#fff;--sf2:#EAEEF3;--ink:#0E1A2B;--mut:#5B6778;--line:#DDE2E9;--ac:#2450F5;--acink:#fff;--am:#F5A524;--ok:#148A5B;--bad:#C7382D;--tl:90%;--tt:28%;--r:14px}
+[data-theme=dark]{--bg:#0C121C;--sf:#141C29;--sf2:#1B2536;--ink:#EAF0F8;--mut:#93A0B4;--line:#243044;--ac:#7C98FF;--acink:#0C121C;--ok:#3CC98F;--bad:#FF7A6E;--tl:22%;--tt:80%}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',Figtree,system-ui,sans-serif;margin:0;line-height:1.1;letter-spacing:-.02em}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:10px;height:58px}
+.logo{font:700 20px 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;cursor:pointer;display:flex;align-items:center;gap:8px;background:none;border:0;padding:0}
+.logo i{width:22px;height:22px;border-radius:50%;border:3px solid var(--ac);border-right-color:var(--am);display:inline-block}
+.grow{flex:1}
+.btn{border:1px solid var(--line);background:var(--sf);border-radius:999px;padding:8px 14px;font-weight:600}
+.btn.pri{background:var(--ac);color:var(--acink);border-color:var(--ac)}
+.btn.pri:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:5px 11px;font-size:13px}
+.btn.bad{color:var(--bad)}
+.nav a,.nav button.l{background:none;border:0;padding:8px 6px;font-weight:600;color:var(--mut)}
+.nav .on{color:var(--ink);box-shadow:inset 0 -2px var(--ac)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--ac);color:var(--acink);display:grid;place-items:center;font-weight:700;border:0}
+select,input[type=text],input[type=search],input[type=date],input[type=email],input[type=tel],input[type=password]{background:var(--sf);border:1px solid var(--line);border-radius:10px;padding:9px 10px;min-height:40px;width:100%}
+label.f{display:block;font-size:13px;font-weight:600;color:var(--mut)}
+label.f>*{margin-top:4px;color:var(--ink);font-weight:400}
+.hero{padding:34px 0 22px;display:grid;gap:22px}
+.hero h1{font-size:clamp(34px,7vw,64px);max-width:12ch}
+.hero p{color:var(--mut);max-width:44ch;margin:10px 0 0;font-size:17px}
+.meter{background:var(--ink);color:var(--bg);border-radius:20px;padding:20px;display:grid;gap:12px}
+[data-theme=dark] .meter{background:var(--sf2);color:var(--ink)}
+.meter select{background:transparent;color:inherit;border-color:rgba(127,127,127,.5)}
+.meter select option{color:#000}
+.meter .big{font:700 clamp(38px,8vw,56px)/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em}
+.meter .big small{font-size:.35em;font-weight:500;opacity:.7;margin-left:6px}
+.meter input[type=range]{width:100%;accent-color:var(--am);height:36px}
+.meter .eq{opacity:.75;font-size:14px}
+.tag{display:inline-block;background:var(--am);color:#2b1a00;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+.filters{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin:8px 0}
+.filters .wide{grid-column:1/-1}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:6px 0 10px;scrollbar-width:none}
+.chip{white-space:nowrap;border:1px solid var(--line);background:var(--sf);border-radius:999px;padding:6px 13px;font-weight:500}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;gap:14px;grid-template-columns:1fr}
+.card{background:var(--sf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;text-align:left;padding:0}
+.card:hover{border-color:var(--ac)}
+.tile{position:relative;height:130px;background:hsl(var(--h) 45% var(--tl));color:hsl(var(--h) 45% var(--tt));display:flex;align-items:flex-end;padding:12px;font:700 22px/1.05 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em}
+.tile.big{height:260px;font-size:38px;border-radius:var(--r)}
+.heart{position:absolute;top:8px;right:8px;background:var(--sf);border:0;border-radius:50%;width:32px;height:32px;font-size:16px}
+.cb{padding:12px;display:grid;gap:4px}
+.cb h3{font-size:17px}
+.m{color:var(--mut);font-size:13px}
+.price{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px}
+.price b{font:700 20px 'Bricolage Grotesque',sans-serif}
+.st{font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;background:var(--sf2)}
+.st.ok{color:var(--ok)}.st.no{color:var(--bad)}
+.detail{display:grid;gap:18px;padding:16px 0 40px}
+.panel{background:var(--sf);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.panel h3{font-size:19px;margin-bottom:10px}
+.two{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+.thumbs{display:flex;gap:8px;margin-top:8px}
+.thumbs button{flex:1;border:1px solid var(--line);background:var(--sf);border-radius:10px;padding:8px;font-size:13px}
+.thumbs .on{border-color:var(--ac);color:var(--ac);font-weight:600}
+ul.clean{list-style:none;margin:0;padding:0}
+ul.clean li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
+ul.clean li:last-child{border:0}
+.tot{font:700 22px 'Bricolage Grotesque',sans-serif}
+.err{background:color-mix(in srgb,var(--bad) 12%,transparent);color:var(--bad);border-radius:10px;padding:8px 10px;margin:8px 0;font-size:14px}
+.okmsg{background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--ok);border-radius:10px;padding:8px 10px;margin:8px 0;font-size:14px}
+.calrow{display:grid;grid-template-columns:64px 1fr;gap:8px;align-items:center;font-size:12px;color:var(--mut);margin:5px 0}
+.track{position:relative;height:18px;background:var(--sf2);border-radius:5px;overflow:hidden}
+.track i{position:absolute;top:0;bottom:0}
+.track .busy{background:repeating-linear-gradient(45deg,var(--mut) 0 3px,transparent 3px 6px);opacity:.55}
+.track .sel{background:var(--ac);opacity:.9}
+.track .sel.x{background:var(--bad)}
+.ticks{display:grid;grid-template-columns:64px 1fr;gap:8px;font-size:11px;color:var(--mut)}
+.ticks div{display:flex;justify-content:space-between}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.dash{display:grid;gap:16px;padding:18px 0 40px}
+.seg{display:grid;grid-auto-flow:column;gap:3px;margin:8px 0}
+.seg i{height:6px;border-radius:3px;background:var(--line)}
+.seg i.d{background:var(--ac)}
+.pill{font-size:12px;font-weight:700;background:var(--sf2);border-radius:999px;padding:3px 10px;display:inline-block}
+.cd{font:700 40px 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.activecard{background:var(--ac);color:var(--acink);border-radius:20px;padding:20px;display:grid;gap:8px}
+.activecard .m{color:inherit;opacity:.8}
+.modalbg{position:fixed;inset:0;background:rgba(5,10,20,.55);z-index:50;display:grid;place-items:end center}
+.modal{background:var(--sf);border-radius:20px 20px 0 0;width:100%;max-width:520px;max-height:92vh;overflow:auto;padding:20px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:var(--bg);border-radius:999px;padding:10px 18px;z-index:80;font-weight:600;max-width:90vw}
+.radio{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px;margin:6px 0}
+.form{display:grid;gap:12px;max-width:560px}
+.strength{height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+.strength i{display:block;height:100%;background:var(--ok);transition:width .2s}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}
+@media(min-width:760px){
+ .hero{grid-template-columns:1.1fr .9fr;align-items:end;padding:56px 0 30px}
+ .filters{grid-template-columns:2fr 1fr 1fr 1fr 1fr}
+ .filters .wide{grid-column:auto}
+ .grid{grid-template-columns:repeat(3,1fr)}
+ .detail{grid-template-columns:1.4fr 1fr;align-items:start}
+ .side{position:sticky;top:76px}
+ .dash{grid-template-columns:200px 1fr}
+ .tabs{flex-direction:column;overflow:visible}
+ .tabs .btn{text-align:left;border-radius:10px}
+ .modalbg{place-items:center}.modal{border-radius:20px}
+}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal"></div>
+<div id="toast"></div>
+<script>
+/* ---------- Data ---------- */
+const HUE={Laptops:220,'Gaming PCs':280,Monitors:190,Tablets:160,Projectors:30,Cameras:350,Printers:50,'Gaming Consoles':255,Keyboards:120,Speakers:15,Routers:200};
+const CATS=Object.keys(HUE);
+const D=(id,name,cat,brand,model,city,store,hr,day,dep,late,dmg,repl,minH,maxH,cond,batt,rating,rev,pop,added,dist,specs,desc,status='Available')=>({id,name,cat,brand,model,city,store,hr,day,dep,late,dmg,repl,minH,maxH,cond,batt,rating,rev,pop,added,dist,specs,desc,status,serial:'SN'+(7300000+id*4117)});
+const DEVICES=[
+D(1,'MacBook Pro 14"','Laptops','Apple','M3 Pro, 2023','Bengaluru','RentTech Indiranagar',180,1500,15000,120,5000,170000,2,72,'Excellent',96,4.8,124,98,4,2.1,['Apple M3 Pro, 11-core','18 GB unified memory','512 GB SSD','14.2" Liquid Retina XDR'],'Colour-accurate display and all-day battery. Suits editing, coding and presentations.'),
+D(2,'Dell XPS 15','Laptops','Dell','9530','Mumbai','RentTech Bandra',120,900,10000,90,3500,145000,2,72,'Good',88,4.5,76,81,20,5.4,['Intel Core i7-13700H','16 GB DDR5','1 TB SSD','15.6" OLED 3.5K'],'A Windows laptop with a bright OLED screen and a full-size keyboard.'),
+D(3,'ROG Strix Gaming PC','Gaming PCs','ASUS','G35 RTX 4070','Bengaluru','RentTech Koramangala',250,2000,25000,200,8000,190000,3,48,'Excellent',null,4.9,58,90,9,3.6,['Ryzen 7 7800X3D','NVIDIA RTX 4070','32 GB DDR5','1 TB NVMe','Includes keyboard, mouse, 27" 165 Hz monitor'],'Ready-to-play desktop with peripherals. Delivered and set up on request.'),
+D(4,'UltraSharp 27" 4K','Monitors','Dell','U2723QE','Delhi','RentTech Connaught Place',60,450,4000,40,1500,55000,2,168,'Excellent',null,4.6,41,64,30,4.2,['27" IPS Black 4K','USB-C 90 W','Height-adjustable stand'],'One-cable USB-C monitor for a clean second screen.'),
+D(5,'iPad Pro 12.9"','Tablets','Apple','M2, Wi-Fi','Mumbai','RentTech Bandra',100,750,8000,60,3000,110000,2,72,'Good',91,4.4,33,55,15,5.4,['Apple M2','256 GB','12.9" Liquid Retina XDR','Apple Pencil 2 included'],'Sketch, annotate and present on a large, fast tablet.'),
+D(6,'Epson Projector','Projectors','Epson','EB-X49','Delhi','RentTech Connaught Place',150,1100,6000,100,2500,42000,3,72,'Good',null,4.3,29,47,50,4.2,['3,600 lumens','XGA','HDMI + VGA','Screen and cables included'],'A bright projector for meetings, film nights and events.'),
+D(7,'Canon EOS R6','Cameras','Canon','R6 Mark II kit','Bengaluru','RentTech Indiranagar',300,2200,30000,200,10000,240000,4,72,'Excellent',94,4.9,88,93,7,2.1,['24 MP full-frame','RF 24-105 mm f/4 lens','2 batteries, 128 GB card'],'Full-frame mirrorless for shoots, events and video.'),
+D(8,'HP LaserJet Pro','Printers','HP','M404dn','Delhi','RentTech Connaught Place',50,350,3000,30,1000,22000,2,168,'Fair',null,4.0,18,30,70,4.2,['Mono laser, 38 ppm','Duplex printing','Ethernet + USB'],'A fast office printer with a starter toner.'),
+D(9,'PlayStation 5','Gaming Consoles','Sony','Disc Edition','Mumbai','RentTech Andheri',120,900,8000,80,3000,55000,3,72,'Good',null,4.7,102,89,12,7.8,['825 GB SSD','2 DualSense controllers','3 games included'],'Console with two controllers and three games.'),
+D(10,'Keychron K8 Pro','Keyboards','Keychron','K8 Pro','Bengaluru','RentTech Koramangala',20,120,1000,15,400,9000,2,168,'Excellent',null,4.6,22,25,25,3.6,['Wireless mechanical','Hot-swappable','Mac + Windows layout'],'Compact mechanical keyboard, tested and sanitised between rentals.'),
+D(11,'JBL PartyBox 310','Speakers','JBL','PartyBox 310','Mumbai','RentTech Andheri',140,1000,7000,90,2500,38000,3,48,'Good',85,4.5,47,52,18,7.8,['240 W','Light show','18 h battery','Wheeled body'],'Loud, portable and easy to move. Made for parties and outdoor events.'),
+D(12,'TP-Link Archer AXE75','Routers','TP-Link','AXE75','Delhi','RentTech Connaught Place',30,200,1500,20,600,15000,2,168,'Good',null,4.2,15,20,60,4.2,['Wi-Fi 6E tri-band','AXE5400','Under maintenance'],'Tri-band router for events and temporary offices.','Maintenance')
+];
+const CITIES=['Bengaluru','Mumbai','Delhi'];
+const REVIEWS=[['Riya S.',5,'Arrived clean and worked exactly as described. Return took two minutes.'],['Karan P.',4,'Good condition. Would like a longer store window on weekends.'],['Neha D.',5,'Booked for an afternoon and only paid for those hours. Fair pricing.']];
+const OPEN='10:00',CLOSE='20:00';
+const TIMES=[];for(let h=10;h<=20;h++){TIMES.push(String(h).padStart(2,'0')+':00');if(h<20)TIMES.push(String(h).padStart(2,'0')+':30')}
+
+/* ---------- Helpers ---------- */
+const $=s=>document.querySelector(s);
+const INR=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const dt=(d,t)=>new Date(d+'T'+t+':00');
+const fmt=d=>d.toLocaleString('en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'});
+const tfmt=d=>d.toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'});
+const addH=(d,h)=>new Date(d.getTime()+h*36e5);
+const dayAt=(off,h,m=0)=>{const d=new Date();d.setDate(d.getDate()+off);d.setHours(h,m,0,0);return d};
+const stars=r=>'★ '+r.toFixed(1);
+
+/* ---------- Rental engine ---------- */
+function quote(d,s,e,delivery){
+  const errors=[];
+  const mins=Math.round((e-s)/6e4);
+  const bill=Math.max(0,Math.ceil(mins/60));
+  const days=Math.floor(bill/24),rem=bill-days*24;
+  const base=days*d.day+Math.min(rem*d.hr,d.day);
+  const pct=bill>=24?.15:bill>=8?.10:0;
+  const discount=Math.round(base*pct);
+  const platform=Math.round((base-discount)*.05);
+  const deliveryFee=delivery?99:0;
+  const taxable=base-discount+platform+deliveryFee;
+  const tax=Math.round(taxable*.18);
+  const rental=taxable+tax;
+  const q={mins,secs:mins*60,hoursExact:mins/60,bill,rate:d.hr,base,pct,discount,platform,deliveryFee,tax,deposit:d.dep,rental,total:rental+d.dep,late:d.late,errors,conflict:null};
+  if(isNaN(s)||isNaN(e)){errors.push('Choose a start and end date and time.');return q}
+  if(e<=s)errors.push('End time must be after the start time.');
+  if(s<new Date())errors.push('Start time is in the past.');
+  if(bill&&bill<d.minH)errors.push(`Minimum rental is ${d.minH} hours.`);
+  if(bill>d.maxH)errors.push(`Maximum rental is ${d.maxH} hours.`);
+  const st=s.toTimeString().slice(0,5),et=e.toTimeString().slice(0,5);
+  if(st<OPEN||st>CLOSE||et<OPEN||et>CLOSE)errors.push('Pickup and return must be between 10:00 AM and 8:00 PM.');
+  if(d.status!=='Available')errors.push('This device is not available for booking right now.');
+  const c=busy(d.id).find(b=>s<b.e&&e>b.s);
+  if(c){q.conflict=c;errors.push(`Already booked ${fmt(c.s)} to ${fmt(c.e)}. Pick a free slot.`)}
+  return q;
+}
+const busy=id=>S.bookings.filter(b=>b.dev===id&&!['CANCELLED','EXPIRED','COMPLETED'].includes(b.status)).map(b=>({s:b.s,e:b.e}));
+
+/* ---------- State ---------- */
+const S={view:'home',dev:null,tab:'overview',q:'',cat:'All',city:'All',brand:'All',maxH:500,rating:0,cond:'Any',availNow:false,sort:'popular',
+ saved:new Set([3,7]),theme:'light',img:0,seq:0,meterDev:1,meterH:5,
+ user:{name:'Aarav Menon',email:'aarav@example.com',phone:'+91 98xxxxxx21',city:'Bengaluru',verified:true},
+ book:{sd:'',st:'10:00',ed:'',et:'15:00',delivery:false},bookings:[],notes:[
+ {t:'Welcome to RentTech. Your account is verified.',d:'Today'}]};
+const FLOW=b=>['PENDING','PAYMENT_PENDING','PAYMENT_VERIFICATION','CONFIRMED',b.delivery?'OUT_FOR_DELIVERY':'READY_FOR_PICKUP','ACTIVE','RETURN_REQUESTED','RETURNED','COMPLETED'];
+const LABEL={PENDING:'Pending',PAYMENT_PENDING:'Payment pending',PAYMENT_VERIFICATION:'Verifying payment',CONFIRMED:'Confirmed',READY_FOR_PICKUP:'Ready for pickup',OUT_FOR_DELIVERY:'Out for delivery',ACTIVE:'Active',RETURN_REQUESTED:'Return requested',RETURNED:'Returned',COMPLETED:'Completed',CANCELLED:'Cancelled',EXPIRED:'Expired',DISPUTED:'Disputed'};
+function addBooking(dev,s,e,delivery,status,user=true){
+  const d=DEVICES.find(x=>x.id===dev),q=quote(d,s,e,delivery);
+  S.seq++;
+  const b={id:`RT-2026-${String(S.seq).padStart(6,'0')}`,dev,s,e,delivery,status,user,q,pay:['PENDING','PAYMENT_PENDING'].includes(status)?'Unpaid':'Paid',lateCharge:0,pickup:delivery?'Delivery to '+S.user.city:d.store};
+  S.bookings.push(b);return b;
+}
+/* seeds: other customers' bookings block slots; user's own bookings appear in dashboard */
+DEVICES.forEach((d,i)=>{ if(d.status==='Available'){addBooking(d.id,dayAt(1+(i%3),11+(i%4)*2),dayAt(1+(i%3),14+(i%4)*2),false,'CONFIRMED',false)} });
+addBooking(1,addH(new Date(),-2),addH(new Date(),3),false,'ACTIVE');
+addBooking(3,dayAt(4,14),dayAt(4,19),true,'CONFIRMED');
+addBooking(5,dayAt(-6,10),dayAt(-6,15),false,'COMPLETED');
+S.bookings.at(-1).q.deposit&&0;
+const mine=()=>S.bookings.filter(b=>b.user);
+const availNow=d=>{const n=new Date(),hh=n.getHours();return d.status==='Available'&&hh>=10&&hh<20&&!busy(d.id).some(b=>b.s<=n&&b.e>n)};
+
+/* ---------- Render: shell ---------- */
+function shell(inner){
+  const n=S.user?S.user.name.split(' ').map(x=>x[0]).join(''):'';
+  return `<header class="top"><div class="wrap bar">
+   <button class="logo" onclick="go('home')" aria-label="RentTech home"><i></i>RentTech</button>
+   <nav class="nav" style="display:flex;gap:8px"><button class="l ${S.view==='home'||S.view==='device'?'on':''}" onclick="go('home')">Browse</button><button class="l ${S.view==='dash'?'on':''}" onclick="go('dash')">My rentals</button></nav>
+   <span class="grow"></span>
+   <button class="btn sm" onclick="toggleTheme()" aria-label="Toggle dark mode">${S.theme==='light'?'Dark':'Light'}</button>
+   ${S.user?`<button class="avatar" onclick="go('dash','profile')" aria-label="Profile">${n}</button>`:`<button class="btn pri sm" onclick="go('signup')">Sign up</button>`}
+  </div></header><main class="wrap">${inner}</main>`;
+}
+function go(v,tab){S.view=v;if(tab)S.tab=tab;if(v==='device'&&S.dev)initBook();render();scrollTo(0,0)}
+function toggleTheme(){S.theme=S.theme==='light'?'dark':'light';document.documentElement.dataset.theme=S.theme;render()}
+function toast(m){const t=$('#toast');t.innerHTML=`<div class="toast" role="status">${m}</div>`;clearTimeout(toast.t);toast.t=setTimeout(()=>t.innerHTML='',2800)}
+function render(){
+  $('#app').innerHTML=shell({home:homeView,device:deviceView,dash:dashView,signup:signupView}[S.view]());
+  if(S.view==='device')updateBook();
+  if(S.view==='home')meterUpdate();
+  tick();
+}
+
+/* ---------- Home ---------- */
+function homeView(){
+  const brands=['All',...new Set(DEVICES.map(d=>d.brand))];
+  return `<section class="hero"><div><h1>Rent devices by the hour.</h1><p>Laptops, cameras, consoles and more. Pick your hours, see the full price up front, and pay only for the time you use.</p></div>
+   <div class="meter"><div style="display:flex;justify-content:space-between;align-items:center"><b>Hour meter</b><span class="tag" id="mtag"></span></div>
+   <select id="mdev" onchange="S.meterDev=+this.value;meterUpdate()" aria-label="Device">${DEVICES.filter(d=>d.status==='Available').map(d=>`<option value="${d.id}" ${d.id===S.meterDev?'selected':''}>${d.name}</option>`).join('')}</select>
+   <div class="big" id="mbig"></div><div class="eq" id="meq"></div>
+   <input type="range" id="mh" min="2" max="30" value="${S.meterH}" oninput="S.meterH=+this.value;meterUpdate()" aria-label="Rental hours">
+   <button class="btn pri" onclick="openDev(S.meterDev)">Book this device</button></div></section>
+  <div class="filters">
+   <label class="f wide">Search<input type="search" id="q" value="${S.q}" placeholder="Search laptops, cameras, brands…" oninput="S.q=this.value;renderGrid()"></label>
+   <label class="f">City<select onchange="S.city=this.value;renderGrid()"><option>All</option>${CITIES.map(c=>`<option ${S.city===c?'selected':''}>${c}</option>`).join('')}</select></label>
+   <label class="f">Brand<select onchange="S.brand=this.value;renderGrid()">${brands.map(b=>`<option ${S.brand===b?'selected':''}>${b}</option>`).join('')}</select></label>
+   <label class="f">Max ₹/hour<select onchange="S.maxH=+this.value;renderGrid()">${[500,300,200,100].map(v=>`<option value="${v}" ${S.maxH===v?'selected':''}>${INR(v)}${v===500?'+':''}</option>`).join('')}</select></label>
+   <label class="f">Sort<select onchange="S.sort=this.value;renderGrid()">${[['popular','Popularity'],['plow','Price low to high'],['phigh','Price high to low'],['dist','Distance'],['rating','Rating'],['new','Newest']].map(([v,l])=>`<option value="${v}" ${S.sort===v?'selected':''}>${l}</option>`).join('')}</select></label>
+   <label class="f">Min rating<select onchange="S.rating=+this.value;renderGrid()">${[0,4,4.5].map(v=>`<option value="${v}" ${S.rating===v?'selected':''}>${v?v+'+':'Any'}</option>`).join('')}</select></label>
+   <label class="f">Condition<select onchange="S.cond=this.value;renderGrid()">${['Any','Excellent','Good','Fair'].map(v=>`<option ${S.cond===v?'selected':''}>${v}</option>`).join('')}</select></label>
+   <label class="f" style="display:flex;gap:8px;align-items:center;margin-top:22px"><input type="checkbox" ${S.availNow?'checked':''} onchange="S.availNow=this.checked;renderGrid()" style="width:auto;min-height:0"> Available now</label>
+  </div>
+  <div class="chips" role="group" aria-label="Categories">${['All',...CATS].map(c=>`<button class="chip ${S.cat===c?'on':''}" onclick="S.cat='${c}';render()">${c}</button>`).join('')}</div>
+  <div id="grid"></div><div style="height:50px"></div>`;
+}
+function meterUpdate(){
+  const d=DEVICES.find(x=>x.id===S.meterDev);if(!d||!$('#mbig'))return;
+  const b=S.meterH,q=quote(d,new Date(0),addH(new Date(0),b),false);
+  $('#mbig').innerHTML=`${INR(q.base)}<small>for ${b} h</small>`;
+  $('#meq').textContent=b*d.hr>d.day&&b<24?`Capped at the daily rate of ${INR(d.day)}`:`${b} h × ${INR(d.hr)}${q.pct?` − ${Math.round(q.pct*100)}% long-rental discount`:''}`;
+  $('#mtag').textContent=q.pct?`${Math.round(q.pct*100)}% off`:'8 h+ gets 10% off';
+}
+function filtered(){
+  const q=S.q.trim().toLowerCase();
+  let l=DEVICES.filter(d=>(S.cat==='All'||d.cat===S.cat)&&(S.city==='All'||d.city===S.city)&&(S.brand==='All'||d.brand===S.brand)&&d.hr<=S.maxH+(S.maxH===500?1e6:0)&&d.rating>=S.rating&&(S.cond==='Any'||d.cond===S.cond)&&(!S.availNow||availNow(d))&&(!q||(d.name+d.brand+d.cat+d.model).toLowerCase().includes(q)));
+  const f={popular:(a,b)=>b.pop-a.pop,plow:(a,b)=>a.hr-b.hr,phigh:(a,b)=>b.hr-a.hr,dist:(a,b)=>a.dist-b.dist,rating:(a,b)=>b.rating-a.rating,new:(a,b)=>a.added-b.added}[S.sort];
+  return l.sort(f);
+}
+function renderGrid(){
+  const l=filtered();
+  $('#grid').innerHTML=l.length?`<div class="grid">${l.map(card).join('')}</div>`:`<div class="empty"><h3>No devices match</h3><p>Clear a filter or try another city.</p></div>`;
+}
+const stat=d=>d.status!=='Available'?['Maintenance','no']:availNow(d)?['Available now','ok']:['Booked or closed',''];
+function card(d){const [t,c]=stat(d);return `<div class="card" role="button" tabindex="0" onclick="openDev(${d.id})" onkeydown="if(event.key==='Enter')openDev(${d.id})">
+ <div class="tile" style="--h:${HUE[d.cat]}">${d.name}<button class="heart" onclick="event.stopPropagation();save(${d.id})" aria-label="Save device">${S.saved.has(d.id)?'♥':'♡'}</button></div>
+ <div class="cb"><span class="m">${d.brand} · ${d.city} · ${d.dist} km</span><h3>${d.model}</h3><span class="m">${stars(d.rating)} (${d.rev}) · ${d.cond}</span>
+ <div class="price"><span><b>${INR(d.hr)}</b><span class="m">/hour</span></span><span class="st ${c}">${t}</span></div></div></div>`}
+function save(id){S.saved.has(id)?S.saved.delete(id):S.saved.add(id);toast(S.saved.has(id)?'Saved to your list':'Removed from saved');S.view==='home'?renderGrid():render()}
+const _render=render;
+render=function(){_render();if(S.view==='home')renderGrid()};
+
+/* ---------- Device detail ---------- */
+function openDev(id){S.dev=id;S.img=0;go('device')}
+function initBook(){const t=new Date();t.setDate(t.getDate()+1);S.book={sd:ymd(t),st:'10:00',ed:ymd(t),et:'15:00',delivery:false}}
+function deviceView(){
+  const d=DEVICES.find(x=>x.id===S.dev),[t,c]=stat(d),b=S.book;
+  const opts=v=>TIMES.map(x=>`<option ${x===v?'selected':''}>${x}</option>`).join('');
+  return `<div class="detail"><div style="display:grid;gap:16px">
+   <button class="btn sm" style="justify-self:start" onclick="go('home')">Back to devices</button>
+   <div><div class="tile big" style="--h:${HUE[d.cat]}">${d.name}<span style="position:absolute;top:12px;left:12px;font:500 14px Figtree" class="st ${c}">${t}</span></div>
+   <div class="thumbs">${['Front','Ports','In the box'].map((x,i)=>`<button class="${S.img===i?'on':''}" onclick="S.img=${i};this.parentNode.previousElementSibling.style.setProperty('--h',${(HUE[d.cat]+i*25)%360})">${x}</button>`).join('')}</div></div>
+   <div><h2 style="font-size:32px">${d.name}</h2><p class="m">${d.brand} ${d.model} · ${d.cat} · ${stars(d.rating)} (${d.rev} reviews)</p><p>${d.desc}</p></div>
+   <div class="panel"><h3>Specifications</h3><ul class="clean">${d.specs.map(s=>`<li>${s}</li>`).join('')}<li><span>Condition</span><b>${d.cond}</b></li>${d.batt?`<li><span>Battery health</span><b>${d.batt}%</b></li>`:''}<li><span>Serial</span><b>${d.serial.slice(0,4)}••••${d.serial.slice(-2)}</b></li></ul></div>
+   <div class="panel"><h3>Location and policies</h3><ul class="clean"><li><span>Store</span><b>${d.store}, ${d.city}</b></li><li><span>Distance</span><b>${d.dist} km</b></li><li><span>Hours</span><b>10:00 AM to 8:00 PM</b></li><li><span>Rental length</span><b>${d.minH} to ${d.maxH} hours</b></li><li><span>Late return</span><b>${INR(d.late)} per extra hour</b></li><li><span>Damage fee</span><b>Up to ${INR(d.dmg)}</b></li><li><span>Replacement cost</span><b>${INR(d.repl)}</b></li></ul>
+   <p class="m">Rules: government ID at pickup, no resale or sub-renting, report faults within 30 minutes of pickup. The deposit is refunded after inspection.</p></div>
+   <div class="panel"><h3>Reviews</h3>${REVIEWS.map(r=>`<p style="margin:0 0 10px"><b>${r[0]}</b> <span class="m">${'★'.repeat(r[1])}</span><br>${r[2]}</p>`).join('')}</div></div>
+   <aside class="side"><div class="panel"><h3>Book this device</h3>
+    <div style="display:flex;gap:14px;align-items:baseline;margin-bottom:12px"><span class="tot">${INR(d.hr)}<span class="m" style="font-size:14px;font-family:Figtree"> /hour</span></span><span class="m">${INR(d.day)} /day</span></div>
+    <div class="two"><label class="f">Start date<input type="date" id="sd" min="${ymd(new Date())}" value="${b.sd}" oninput="updateBook()"></label><label class="f">Start time<select id="st" onchange="updateBook()">${opts(b.st)}</select></label>
+    <label class="f">End date<input type="date" id="ed" min="${ymd(new Date())}" value="${b.ed}" oninput="updateBook()"></label><label class="f">End time<select id="et" onchange="updateBook()">${opts(b.et)}</select></label></div>
+    <label class="radio"><input type="checkbox" id="dl" ${b.delivery?'checked':''} onchange="updateBook()"> Deliver to me (${INR(99)})</label>
+    <div id="quote"></div>
+    <button class="btn pri" id="bookBtn" style="width:100%;margin-top:10px" onclick="openCheckout()">Continue to payment</button>
+    <p class="m" style="margin:10px 0 0">Availability, next 7 days</p><div id="cal"></div></div></aside></div>`;
+}
+function updateBook(){
+  const d=DEVICES.find(x=>x.id===S.dev);
+  const g=id=>$('#'+id);
+  S.book={sd:g('sd').value,st:g('st').value,ed:g('ed').value,et:g('et').value,delivery:g('dl').checked};
+  const s=dt(S.book.sd,S.book.st),e=dt(S.book.ed,S.book.et),q=quote(d,s,e,S.book.delivery);
+  const row=(a,b,cl='')=>`<li class="${cl}"><span>${a}</span><b>${b}</b></li>`;
+  $('#quote').innerHTML=(q.errors.length?q.errors.map(x=>`<div class="err" role="alert">${x}</div>`).join(''):`<div class="okmsg">Slot is free. Device is held for you during this time.</div>`)+
+   (q.mins>0?`<ul class="clean">${row('Duration',`${Math.floor(q.mins/60)} h ${q.mins%60} min`)}${row('Billable hours',q.bill+' h')}
+   ${row(`Rental (${q.bill} h × ${INR(q.rate)})`,INR(q.base))}${q.discount?row(`Discount (${Math.round(q.pct*100)}%)`,'−'+INR(q.discount)):''}${row('Platform fee (5%)',INR(q.platform))}${q.deliveryFee?row('Delivery fee',INR(q.deliveryFee)):''}${row('GST (18%)',INR(q.tax))}${row('Refundable security deposit',INR(q.deposit))}
+   <li><span><b>Pay now</b></span><span class="tot">${INR(q.total)}</span></li></ul><p class="m" style="margin:4px 0 0">Late returns cost ${INR(q.late)} per extra hour.</p>`:'');
+  $('#bookBtn').disabled=q.errors.length>0;
+  // 7-day availability
+  let h='';const ws=6e4*60*10,span=10*36e5;
+  for(let i=0;i<7;i++){
+    const w0=dayAt(i,10),w1=dayAt(i,20),pos=(a,b)=>{const l=Math.max(a,w0),r=Math.min(b,w1);return r>l?`left:${(l-w0)/span*100}%;width:${(r-l)/span*100}%`:null};
+    let bars=busy(d.id).map(b=>pos(b.s,b.e)).filter(Boolean).map(p=>`<i class="busy" style="${p}"></i>`).join('');
+    const sp=!isNaN(s)&&!isNaN(e)&&q.mins>0?pos(s,e):null;
+    if(sp)bars+=`<i class="sel ${q.errors.length?'x':''}" style="${sp}"></i>`;
+    h+=`<div class="calrow"><span>${w0.toLocaleDateString('en-IN',{weekday:'short',day:'numeric'})}</span><div class="track">${bars}</div></div>`;
+  }
+  $('#cal').innerHTML=h+`<div class="ticks"><span></span><div><span>10 AM</span><span>2 PM</span><span>8 PM</span></div></div><p class="m" style="margin:6px 0 0">Hatched = already booked. Blue = your slot.</p>`;
+}
+
+/* ---------- Checkout ---------- */
+function openCheckout(){
+  if(!S.user){toast('Sign up to continue');go('signup');return}
+  const d=DEVICES.find(x=>x.id===S.dev),b=S.book,s=dt(b.sd,b.st),e=dt(b.ed,b.et),q=quote(d,s,e,b.delivery);
+  if(q.errors.length)return;
+  $('#modal').innerHTML=`<div class="modalbg" onclick="if(event.target===this)closeModal()"><div class="modal" role="dialog" aria-modal="true" aria-label="Payment">
+   <h3 style="font-size:24px">Confirm and pay</h3><p class="m">${d.name} · ${fmt(s)} to ${fmt(e)} (${q.bill} h)</p>
+   <ul class="clean"><li><span>Rental after discount and fees</span><b>${INR(q.rental)}</b></li><li><span>Refundable deposit</span><b>${INR(q.deposit)}</b></li><li><span><b>Total</b></span><span class="tot">${INR(q.total)}</span></li></ul>
+   ${['UPI','Card','Net banking'].map((m,i)=>`<label class="radio"><input type="radio" name="pm" ${i?'':'checked'}> ${m}</label>`).join('')}
+   <div id="paystate" class="m" style="margin:8px 0"></div>
+   <div style="display:flex;gap:8px"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn pri" id="payBtn" style="flex:1" onclick="pay()">Pay ${INR(q.total)}</button></div></div></div>`;
+}
+const closeModal=()=>$('#modal').innerHTML='';
+function pay(){
+  const d=DEVICES.find(x=>x.id===S.dev),b=S.book,s=dt(b.sd,b.st),e=dt(b.ed,b.et);
+  const q=quote(d,s,e,b.delivery); // re-check to block double booking at payment time
+  if(q.errors.length){closeModal();toast('That slot was just taken. Pick another.');updateBook();return}
+  $('#payBtn').disabled=true;
+  const bk=addBooking(d.id,s,e,b.delivery,'PENDING');
+  const steps=[['PAYMENT_PENDING','Waiting for payment…'],['PAYMENT_VERIFICATION','Verifying payment…'],['CONFIRMED','Booking confirmed']];
+  steps.forEach(([st,msg],i)=>setTimeout(()=>{bk.status=st;if(st!=='PAYMENT_PENDING')bk.pay=st==='CONFIRMED'?'Paid':'Verifying';const el=$('#paystate');if(el)el.textContent=msg;
+   if(st==='CONFIRMED'){S.notes.unshift({t:`${bk.id} confirmed: ${d.name}, ${fmt(s)}.`,d:'Just now'});setTimeout(()=>{closeModal();S.tab='bookings';go('dash');toast('Booking confirmed: '+bk.id)},600)}},(i+1)*700));
+}
+
+/* ---------- Dashboard ---------- */
+function dashView(){
+  if(!S.user)return `<div class="empty"><h3>Sign up to see your rentals</h3><button class="btn pri" onclick="go('signup')">Create account</button></div>`;
+  const T=[['overview','Overview'],['bookings','My bookings'],['payments','Payments'],['saved','Saved devices'],['notes','Notifications'],['profile','Profile']];
+  const bodies={overview:dOverview,bookings:dBookings,payments:dPayments,saved:dSaved,notes:dNotes,profile:dProfile};
+  return `<div class="dash"><div class="tabs">${T.map(([k,l])=>`<button class="btn ${S.tab===k?'pri':''}" onclick="S.tab='${k}';render()">${l}</button>`).join('')}</div><div style="display:grid;gap:14px;align-content:start">${bodies[S.tab]()}</div></div>`;
+}
+const dev=id=>DEVICES.find(d=>d.id===id);
+function bookingCard(b){
+  const d=dev(b.dev),f=FLOW(b),i=f.indexOf(b.status),cancelled=b.status==='CANCELLED';
+  return `<div class="panel"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><div><b>${d.name}</b><div class="m">${b.id} · ${b.delivery?'Delivery':'Pickup'}: ${b.pickup}</div></div><span class="pill">${LABEL[b.status]}</span></div>
+   <div class="seg" aria-hidden="true">${f.map((x,k)=>`<i class="${!cancelled&&k<=i?'d':''}"></i>`).join('')}</div>
+   <ul class="clean"><li><span>Time</span><b>${fmt(b.s)} to ${fmt(b.e)}</b></li><li><span>Hours · Rental · Deposit</span><b>${b.q.bill} h · ${INR(b.q.rental)} · ${INR(b.q.deposit)}</b></li><li><span>Payment</span><b>${b.pay}</b></li>${b.lateCharge?`<li><span>Late fee charged</span><b>${INR(b.lateCharge)}</b></li>`:''}</ul>
+   <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">${!cancelled&&b.status!=='COMPLETED'?`<button class="btn sm pri" onclick="advance('${b.id}')">Next step: ${LABEL[f[i+1]]||''}</button>`:''}${i>=0&&i<5&&!cancelled?`<button class="btn sm bad" onclick="cancelB('${b.id}')">Cancel booking</button>`:''}</div>
+   <p class="m" style="margin:8px 0 0">The Next step button stands in for staff and system actions.</p></div>`;
+}
+function advance(id){
+  const b=S.bookings.find(x=>x.id===id),f=FLOW(b),n=f[f.indexOf(b.status)+1];if(!n)return;
+  if(n==='PAYMENT_VERIFICATION')b.pay='Verifying';if(n==='CONFIRMED')b.pay='Paid';
+  if(n==='RETURNED'){const late=Math.max(0,Math.ceil((Date.now()-b.e)/36e5));b.lateCharge=late*dev(b.dev).late;if(late)S.notes.unshift({t:`${b.id}: ${late} h late. ${INR(b.lateCharge)} deducted from deposit.`,d:'Just now'})}
+  b.status=n;S.notes.unshift({t:`${b.id} is now: ${LABEL[n]}.`,d:'Just now'});render();
+}
+function cancelB(id){const b=S.bookings.find(x=>x.id===id);b.status='CANCELLED';if(b.pay==='Paid')b.pay='Refund in 3 to 5 days';S.notes.unshift({t:`${id} cancelled. Slot released.`,d:'Just now'});render();toast('Booking cancelled')}
+function dOverview(){
+  const a=mine().find(b=>b.status==='ACTIVE'),up=mine().filter(b=>['CONFIRMED','READY_FOR_PICKUP','OUT_FOR_DELIVERY'].includes(b.status)).sort((x,y)=>x.s-y.s);
+  return `<h2 style="font-size:28px">Hi ${S.user.name.split(' ')[0]}</h2>`+
+  (a?`<div class="activecard"><span class="m">Active rental · ${a.id}</span><h3 style="font-size:26px">${dev(a.dev).name}</h3><div class="cd" data-cd="${a.e.getTime()}">--:--:--</div><span class="m">remaining · ends ${fmt(a.e)} · Payment ${a.pay} · Return not started</span>
+   <div><button class="btn sm" style="color:#000" onclick="advance('${a.id}')">Request return</button></div></div>`:`<div class="panel empty">No active rental. <a href="#" onclick="go('home');return false" style="color:var(--ac)">Browse devices</a></div>`)+
+  `<h3>Upcoming</h3>`+(up.length?up.map(bookingCard).join(''):`<div class="panel empty">Nothing booked yet.</div>`);
+}
+const dBookings=()=>`<h3>All bookings</h3>`+mine().slice().reverse().map(bookingCard).join('');
+function dPayments(){
+  const rows=mine().flatMap(b=>{
+    const dep=b.status==='COMPLETED'?['Refunded',b.q.deposit-b.lateCharge]:b.status==='CANCELLED'?['Refunded',b.q.deposit]:['Held',b.q.deposit];
+    return [[b.id,'Rental and fees',b.q.rental,b.status==='CANCELLED'?'Refund pending':b.pay],[b.id,'Security deposit',dep[1],b.pay==='Unpaid'?'Unpaid':dep[0]]]});
+  return `<h3>Payments, refunds and deposits</h3><div class="panel"><ul class="clean">${rows.map(r=>`<li><span>${r[0]}<br><span class="m">${r[1]}</span></span><span style="text-align:right"><b>${INR(r[2])}</b><br><span class="m">${r[3]}</span></span></li>`).join('')}</ul></div>`;
+}
+const dSaved=()=>`<h3>Saved devices</h3>`+(S.saved.size?`<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">${[...S.saved].map(id=>card(dev(id))).join('')}</div>`:`<div class="panel empty">Tap the heart on a device to save it.</div>`);
+const dNotes=()=>`<h3>Notifications</h3><div class="panel"><ul class="clean">${S.notes.map(n=>`<li><span>${n.t}</span><span class="m">${n.d}</span></li>`).join('')}</ul></div>`;
+const dProfile=()=>`<h3>Profile</h3><div class="panel"><ul class="clean"><li><span>Name</span><b>${S.user.name}</b></li><li><span>Email</span><b>${S.user.email}</b></li><li><span>Phone</span><b>${S.user.phone}</b></li><li><span>City</span><b>${S.user.city}</b></li><li><span>Verification</span><b>${S.user.verified?'Email and phone verified':'Pending'}</b></li></ul></div><div class="panel"><h3>Also in the full build</h3><p class="m">Reviews, support tickets, documents, ID verification, emergency contact, session management.</p></div>`;
+function tick(){document.querySelectorAll('[data-cd]').forEach(el=>{let ms=+el.dataset.cd-Date.now();if(ms<=0){el.textContent='Overdue: late fee applies';return}const s=Math.floor(ms/1e3);el.textContent=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')})}
+setInterval(tick,1000);
+
+/* ---------- Sign up ---------- */
+let signStep=1,draft={};
+function signupView(){
+  if(signStep===2)return `<div class="form" style="padding:30px 0"><h2>Verify your phone</h2><p class="m">We sent a 6-digit code to ${draft.phone}. Demo code: 123456</p><label class="f">Code<input type="text" id="otp" inputmode="numeric" maxlength="6"></label><div id="serr"></div><button class="btn pri" onclick="verifyOtp()">Verify and continue</button></div>`;
+  return `<div class="form" style="padding:30px 0"><h2>Create your account</h2>
+   <label class="f">Full name<input type="text" id="n"></label><label class="f">Email<input type="email" id="e"></label><label class="f">Phone number<input type="tel" id="p" placeholder="+91"></label>
+   <label class="f">Date of birth<input type="date" id="dob"></label><label class="f">City<select id="c">${CITIES.map(c=>`<option>${c}</option>`).join('')}</select></label>
+   <label class="f">Password<input type="password" id="pw" oninput="pwStr()"></label><div class="strength"><i id="sb" style="width:0"></i></div>
+   <label class="f">Confirm password<input type="password" id="pw2"></label><div id="serr"></div>
+   <button class="btn pri" onclick="signNext()">Send verification code</button></div>`;
+}
+function pwStr(){const v=$('#pw').value;let s=0;if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/\d/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;$('#sb').style.width=s*25+'%'}
+function signNext(){
+  const v=id=>$('#'+id).value.trim(),er=[];
+  if(v('n').length<2)er.push('Enter your full name.');if(!/^\S+@\S+\.\S+$/.test(v('e')))er.push('Enter a valid email.');if(v('p').replace(/\D/g,'').length<10)er.push('Enter a 10-digit phone number.');
+  if(!v('dob'))er.push('Enter your date of birth.');else if((Date.now()-new Date(v('dob')))/31557600000<18)er.push('You must be 18 or older.');
+  if($('#pw').value.length<8)er.push('Password needs at least 8 characters.');if($('#pw').value!==$('#pw2').value)er.push('Passwords do not match.');
+  if(er.length){$('#serr').innerHTML=er.map(x=>`<div class="err" role="alert">${x}</div>`).join('');return}
+  draft={name:v('n'),email:v('e'),phone:v('p'),city:v('c')};signStep=2;render();
+}
+function verifyOtp(){
+  if($('#otp').value!=='123456'){$('#serr').innerHTML='<div class="err" role="alert">Code does not match. Use 123456 in this demo.</div>';return}
+  S.user={...draft,verified:true};signStep=1;S.tab='overview';go('dash');toast('Account verified');
+}
+
+render();
+</script>
+</body>
+</html>
